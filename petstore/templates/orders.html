@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{% load static %}
+
+<main class="main-content">
+	<div class="breadcrumb-wrapper">
+		<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+			<a href="/" title="Back to the frontpage">Anasayfa</a>
+			<span aria-hidden="true">&rsaquo;</span>
+			<span>Hesap Sayfası</span>
+		</nav>
+		<h1 class="section-header__title">Hesabım</h1>
+	</div>
+	<div class="wrapper">
+		<div class="grid">
+			<div class="grid__item two-thirds medium-down--one-whole">
+				<h3>Tüm Siparişlerim</h3>
+				{% for order in orders %}
+				<div class="tab orders-tab">
+					<span style="padding: 9px 5px;">Sipariş Tarihi: {{order.date}}</span>
+					<span style="background: #e5e5e5; padding: 9px 5px;">Sipariş Durumu: {{order.durum}}</span>
+					<span style="padding: 9px 5px;">Sipariş Ücreti: {{order.charge|currency}}</span>
+					<span style="background: #e5e5e5; padding: 1px 0;">
+						<form action="/my-order/" method="get" enctype="multipart/form-data">
+							<input type="hidden" name="order_no" value="{{order.order_no}}">
+							<input type="submit" class="btn" value="Detay">
+						</form>
+					</span>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="grid__item one-third medium-down--one-whole">
+				<h3>Hesap Bilgileri</h3>
+				<p>
+					İsim: {{user.first_name}} {{user.last_name}}<br/>
+					Telefon: {{user.phone}}<br/>
+					Email: {{user.email}}<br/>
+				</p>
+				<p>
+					<a href="#">Adreslerim (1)</a>
+				</p>
+				<p>
+					<a style="margin-top: 20px;" href="/logout" class="btn">Çıkış Yap</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</main>
+
+{% endblock %}

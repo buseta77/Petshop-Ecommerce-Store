@@ -1,0 +1,255 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{% load static %}
+
+<link href="{% static 'assets/css/home_market.style.scss.css' %}" rel="stylesheet" type="text/css" media="all">
+
+<main class="main-content">
+	<div class="breadcrumb-wrapper">
+		<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+			<a href="/" title="Anasayfaya dön">Anasayfa</a>
+			<span aria-hidden="true">&rsaquo;</span>
+			{% if last_instance %}
+			<a href="/collection/{{last_instance.main_category.id}}/all/all">{{last_instance.main_category}}</a>
+			<span aria-hidden="true">&rsaquo;</span>
+			<span>{{category}}</span>
+			{% elif query %}
+			<span>Aranan: "{{query}}"</span>
+			{% endif %}
+		</nav>
+		<h1 class="section-header__title"></h1>
+	</div>
+	<div class="wrapper">
+		<div id="filter-loading" style="display:none">
+			<img src="{% static 'assets/images/gears.svg' %}" alt="filter loading">
+		</div>
+		<div class="grid--rev" id="collection">
+			<div class="grid__item large--three-quarters">
+				<header class="section-header section-grid">
+					<div class="section-header__right section-sorting">
+						<div class="form-horizontal">
+							<label for="SortBy">Sıralama Metodu:</label>
+							<form action="/sort-by/" method="post" style="display: inherit;">
+								{% csrf_token %}
+								<input type="hidden" name="url" value="{{request.path}}">
+								<select name="SortBy" id="SortBy" onchange="this.form.submit()">
+									{% if sortby == 'selling' %}
+									<option value="selling" selected="selected">En Çok Satan</option>
+									<option value="h2l">Önce Yüksek Fiyat</option>
+									<option value="l2h">Önce Düşük Fiyat</option>
+									<option value="newer">Yeni Eklenenler</option>
+									{% elif sortby == 'h2l' %}
+									<option value="selling">En Çok Satan</option>
+									<option value="h2l" selected="selected">Önce Yüksek Fiyat</option>
+									<option value="l2h">Önce Düşük Fiyat</option>
+									<option value="newer">Yeni Eklenenler</option>
+									{% elif sortby == 'l2h' %}
+									<option value="selling">En Çok Satan</option>
+									<option value="h2l">Önce Yüksek Fiyat</option>
+									<option value="l2h" selected="selected">Önce Düşük Fiyat</option>
+									<option value="newer">Yeni Eklenenler</option>
+									{% elif sortby == 'newer' %}
+									<option value="selling">En Çok Satan</option>
+									<option value="h2l">Önce Yüksek Fiyat</option>
+									<option value="l2h">Önce Düşük Fiyat</option>
+									<option value="newer" selected="selected">Yeni Eklenenler</option>
+									{% else %}
+									<option value="selling" selected="selected">En Çok Satan</option>
+									<option value="h2l">Önce Yüksek Fiyat</option>
+									<option value="l2h">Önce Düşük Fiyat</option>
+									<option value="newer">Yeni Eklenenler</option>
+									{% endif %}
+								</select>
+							</form>
+						</div>
+						<div class="collection-view">
+							<button type="button" title="Normal Görünüm" class="grid-button change-view change-view--active" data-view="grid">
+							<span class="icon-fallback-text">
+							<span class="icon icon-grid-view" aria-hidden="true"></span>
+							<span class="fallback-text">Normal Görünüm</span>
+							</span>
+							</button>
+							<button type="button" title="Liste Görünümü" class="list-button change-view " data-view="list">
+							<span class="icon-fallback-text">
+							<span class="icon icon-list-view" aria-hidden="true"></span>
+							<span class="fallback-text">Liste Görünümü</span>
+							</span>
+							</button>
+						</div>
+					</div>
+				</header>
+				<div class="grid-uniform grid-uniform-category ">
+					{% for product in products %}
+					<div class="grid__item large--one-quarter medium--one-half">
+						<div class="grid__item_wrapper">
+							<div class="grid__image product-image">
+								<a href="/products/{{product.slug}}">
+									<img src="{{product.image.url}}" alt="{{product.name}}">
+								</a>
+							</div>
+							<div class="rating-star">
+								<span class="spr-badge" data-rating="0.0">
+									<span class="spr-starrating spr-badge-starrating">
+										<i class="spr-icon spr-icon-star" style=""></i>
+										<i class="spr-icon spr-icon-star" style=""></i>
+										<i class="spr-icon spr-icon-star" style=""></i>
+										<i class="spr-icon spr-icon-star" style=""></i>
+										<i class="spr-icon spr-icon-star" style=""></i>
+									</span>
+									<span class="spr-badge-caption">Yorum yok</span>
+								</span>
+							</div>
+							<p class="h6 product-title">
+								<a href="/products/{{product.slug}}">{{product.name}}</a>
+							</p>
+							<p class="product-price">
+								<strong>İndirimli</strong>
+								<span class="money">{{product.price|currency}}</span>
+								<span class="visually-hidden">Regular price</span>
+								<s><span class="money">{{product.price_before|currency}}</span></s>
+							</p>
+							<div class="list-mode-description">
+								{{product.description}}
+							</div>
+							<ul class="action-button">
+								<li class="add-to-cart-form">
+									<form action="/addToCart/" method="post" enctype="multipart/form-data" class="AddToCartFormCollection">
+										{% csrf_token %}
+										<div class="effect-ajax-cart">
+											<input type="hidden" name="product" value="{{product.id}}">
+											{% if rawquery %}
+											<input type="hidden" name="query" value="{{rawquery}}">
+											<input type="hidden" name="basepathraw" value="{{basepathraw}}">
+											{% endif %}
+											<button type="submit" class="btn btn-1 add-to-cart" title="Sepete Ekle">
+												<span><i class="fa fa-shopping-cart"></i>Sepete Ekle</span>
+											</button>
+										</div>
+									</form>
+								</li>
+							</ul>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<!-- SOL KISIM - FİLTRELER -->
+			<div class="grid__item large--one-quarter">
+				<div class="group_sidebar">
+					{% if basepath != 'none' %}
+					<div class="sb-wrapper all-collections-wrapper clearfix" data-animate="" data-delay="0">
+						<h6 class="sb-title">Tüm {{category}}</h6>
+						<ul class="list-unstyled sb-content all-collections list-styled">
+							{% for subcategory in subcategories %}
+							<li>
+								{% if subcategory.1 == basepath %}
+								<span><i class="fa fa-angle-right" style="font-weight: bold; color: red; font-family: 'Comfortaa', cursive;">- {{subcategory.0}}</i></span>
+								{% else  %}
+								<a href="{{subcategory.1}}all/all/"><span><i class="fa fa-angle-right" style="font-family: 'Comfortaa', cursive;">- {{subcategory.0}}</i></span></a>
+								{% endif %}
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+					{% else %}
+					<div class="sb-wrapper all-collections-wrapper clearfix" data-animate="" data-delay="0">
+						<h6 class="sb-title">Bu Markalarda :</h6>
+						<ul class="list-unstyled sb-content all-collections list-styled">
+							{% for subcategory in subcategories %}
+							<li>
+								{% if ""|add:"/search/"|add:subcategory|add:"/" == basepathraw %}
+								<span><i class="fa fa-angle-right" style="font-weight: bold; color: red; font-family: 'Comfortaa', cursive;">- {{subcategory}}</i></span>
+								{% else  %}
+								<a href="/search/{{subcategory}}/?query={{rawquery}}"><span><i class="fa fa-angle-right" style="font-family: 'Comfortaa', cursive;">- {{subcategory}}</i></span></a>
+								{% endif %}
+							</li>
+							{% endfor %}
+						</ul>
+						{% if basepathraw != '/search/all/' %}
+						<div class="sb-clear-filter">
+							<button><a href="/search/all/?query={{rawquery}}">Filtreleri Kaldır</a></button>
+						</div>
+						{% endif %}
+					</div>
+					{% endif %}
+					{% if shopby2 != '' %}
+					<div class="sb-wrapper shop-by" data-animate="" data-delay="0">
+						<h6 class="sb-title">Filtrele</h6>
+						<div class="shop-by-content" id="tags-filter-content">
+							<div class="filter-tag-group">
+								{% if filtrele == 'yes' %}
+								<div class="tag-group" id="coll-filter-1">
+									<p class="title cfc1" data-toggle="collapse" data-target="#cfc1">
+										{{tailname}}<span class="ficon"><i class="fa fa-minus"></i></span>
+									</p>
+									<ul id="cfc1" class="collapse in">
+										{% for item in shopby %}
+										{% with ""|add:basepath|add:item.neyli|add:"/"|add:tail2 as current %}
+										{% if current == request.path %}
+										<li><span><i class="fa fa-angle-right" style="font-weight: bold; color: red; font-family: 'Comfortaa', cursive;">- {{item.neyli}}</i></span></li>
+										{% else %}
+										<li><a href="{{basepath}}{{item.neyli}}/{{tail2}}"><span><i class="fa fa-angle-right" style="font-family: 'Comfortaa', cursive;">- {{item.neyli}}</i></span></a></li>
+										{% endif %}
+										{% endwith %}
+										{% endfor %}
+									</ul>
+								</div>
+								{% endif %}
+								<div class="tag-group" id="coll-filter-2">
+									<p class="title cfc1" data-toggle="collapse" data-target="#cfc1">
+										Marka<span class="ficon"><i class="fa fa-minus"></i></span>
+									</p>
+									<ul id="cfc2" class="collapse in">
+										{% for item in shopby2 %}
+										{% with ""|add:basepath|add:tail|add:item.brand|add:"/" as current %}
+										{% if current == request.path %}
+										<li><span><i class="fa fa-angle-right" style="font-weight: bold; color: red; font-family: 'Comfortaa', cursive;">- {{item.brand}}</i></span></li>
+										{% else %}
+										<li><a href="{{basepath}}{{tail}}{{item.brand}}/"><span><i class="fa fa-angle-right" style="font-family: 'Comfortaa', cursive;">- {{item.brand}}</i></span></a></li>
+										{% endif %}
+										{% endwith %}
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+							<script>
+								$(function () {
+								  $("#cfc1").on("hide.bs.collapse", function(){
+									$(".cfc1 span").html('<i class="fa fa-plus"></i>');
+								  });
+								  $("#cfc1").on("show.bs.collapse", function(){
+									$(".cfc1 span").html('<i class="fa fa-minus"></i>');
+								  });
+								  $("#cfc2").on("hide.bs.collapse", function(){
+											$(".cfc2 span").html('<i class="fa fa-plus"></i>');
+								  });
+								  $("#cfc2").on("show.bs.collapse", function(){
+									$(".cfc2 span").html('<i class="fa fa-minus"></i>');
+								  });
+
+								  $(".tag-group .title").click(function(){
+									$(this).toggleClass("open");
+								  });
+								});
+							  </script>
+						</div>
+						{% with ""|add:basepath|add:"all/all/" as base %}
+						{% if request.path != base %}
+						<div class="sb-clear-filter">
+							<button><a href="{{base}}">Filtreleri Kaldır</a></button>
+						</div>
+						{% endif %}
+						{% endwith %}
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+
+{% endblock %}

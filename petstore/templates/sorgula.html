@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{% load static %}
+
+<main class="main-content">
+    <div class="breadcrumb-wrapper">
+		<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+			<a href="/" title="Back to the frontpage">Anasayfa</a>
+			<span aria-hidden="true">&rsaquo;</span>
+			<span>Sipariş</span>
+		</nav>
+		<h1 class="section-header__title">SİPARİŞ SORGULA</h1>
+	</div>
+	<div class="large--one-third push--large--one-third text-center" style="margin-top: 70px; margin-bottom: 70px;">
+		<form method="get" action="/my-order/" enctype="multipart/form-data">
+			<input type="text" name="order_no" placeholder="Sipariş numarası girin...">
+			<input type="submit" class="btn" value="Sorgula">
+		</form>
+		{% if error %}
+		<p style="margin-top: 30px;">Sipariş bulunamadı.</p>
+		{% endif %}
+	</div>
+</main>
+
+{% endblock %}

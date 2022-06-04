@@ -1,0 +1,593 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{% load static %}
+
+<!-- Main Content -->
+<main class="main-content">
+	<div class="wrapper">
+		<div id="top-home-blocks" class="grid--full grid--table">
+			<div class="grid__item one-quarter shop-by-collections medium-down--hide">
+				<div class="sidebar-collections">
+					<div class="sdcollections-title sb-title">
+						<i class="fa fa-list"></i>
+						<span>Tüm Ürünler</span>
+					</div>
+					<div class="sdcollections-content">
+						<ul class="sdcollections-list">
+							<li class="sdc-element vetical-menu1 site-nav--has-dropdown" aria-haspopup="true">
+								<a href="/kedi-mama/0/0/all/all" class="site-nav__link">
+									<div class="element-main">
+										<div class="collection-icon">
+											<img src="{% static 'assets/images/kedi-mama.png' %}" alt="collection icon">
+										</div>
+										<div class="collection-area have-icons">
+											<div class="collection-name">
+												 Kedi Mamaları ({{products_no_kedi_mama}})
+											</div>
+										</div>
+									</div>
+									<span class="icon icon-arrow-right" aria-hidden="true"></span>
+								</a>
+								<ul class="site-nav__dropdown vetical__dropdown vetical__dropdown1">
+									<li class="nav-links nav-links01 grid__item large--one-half">
+										<ul>
+											<li class="list-title">Kedi Mamalarımız</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-mama/1/1/all/all">Kuru Mamalar</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-mama/1/0/all/all">Yaş Mamalar</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-mama/2/1/all/all">Yavru Kedi Mamaları</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-mama/2/0/all/all">Yetişkin Mamalar</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-mama/3/1/all/all">Kısır Kedi Mamaları</a>
+											</li>
+										</ul>
+									</li>
+									<li class="grid__item large--one-half">
+										<ul>
+											<li class="list-title">Son Eklenen</li>
+											<li class="list-product">
+											<div class="list-product-image">
+												<a href="/products/{{last_kedi_mama.slug}}"><img src="{{last_kedi_mama.image.url}}" alt="{{last_kedi_mama.name}}"></a>
+											</div>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="sdc-element vetical-menu2 site-nav--has-dropdown" aria-haspopup="true">
+								<a href="/kopek-mama/0/0/all/all" class="site-nav__link">
+									<div class="element-main">
+										<div class="collection-icon">
+											<img src="{% static 'assets/images/kopek-mama.png' %}" alt="collection icon">
+										</div>
+										<div class="collection-area have-icons">
+											<div class="collection-name">
+												 Köpek Mamaları ({{products_no_kopek_mama}})
+											</div>
+										</div>
+									</div>
+									<span class="icon icon-arrow-right" aria-hidden="true"></span>
+								</a>
+								<ul class="site-nav__dropdown vetical__dropdown vetical__dropdown1">
+									<li class="nav-links nav-links01 grid__item large--one-half">
+										<ul>
+											<li class="list-title">Köpek Mamalarımız</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-mama/1/1/all/all">Kuru Mamalar</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-mama/1/0/all/all">Yaş Mamalar</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-mama/2/1/all/all">Yavru Köpek Mamaları</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-mama/2/0/all/all">Yetişkin Köpek Mamaları</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-mama/3/1/all/all">Kısır Köpek Mamaları</a>
+											</li>
+										</ul>
+									</li>
+									<li class="grid__item large--one-half">
+										<ul>
+											<li class="list-title">Son Eklenen</li>
+											<li class="list-product">
+											<div class="list-product-image">
+												<a href="/products/{{last_kopek_mama.slug}}"><img src="{{last_kopek_mama.image.url}}" alt="{{last_kopek_mama.name}}"></a>
+											</div>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="sdc-element vetical-menu1 site-nav--has-dropdown" aria-haspopup="true">
+								<a href="/kedi-odul/0/0/all/all" class="site-nav__link">
+									<div class="element-main">
+										<div class="collection-icon">
+											<img src="{% static 'assets/images/kedi-odul.png' %}" alt="collection icon">
+										</div>
+										<div class="collection-area have-icons">
+											<div class="collection-name">
+												 Kedi Ödülleri ({{products_no_kedi_odul}})
+											</div>
+										</div>
+									</div>
+									<span class="icon icon-arrow-right" aria-hidden="true"></span>
+								</a>
+								<ul class="site-nav__dropdown vetical__dropdown vetical__dropdown1">
+									<li class="nav-links nav-links01 grid__item large--one-half">
+										<ul>
+											<li class="list-title">Kedi Ödüllerimiz</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-odul/1/1/all/all">Kedi Bisküvileri</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-odul/1/0/all/all">Stick Ödüller</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-odul/2/1/all/all">Yavru Kedi Ödülleri</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-odul/2/0/all/all">Yetişkin Kedi Ödülleri</a>
+											</li>
+										</ul>
+									</li>
+									<li class="grid__item large--one-half">
+										<ul>
+											<li class="list-title">Son Eklenen</li>
+											<li class="list-product">
+											<div class="list-product-image">
+												<a href="/products/{{last_kedi_odul.slug}}"><img src="{{last_kedi_odul.image.url}}" alt="{{last_kedi_odul.name}}"></a>
+											</div>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="sdc-element vetical-menu1 site-nav--has-dropdown" aria-haspopup="true">
+								<a href="/kopek-odul/0/0/all/all" class="site-nav__link">
+									<div class="element-main">
+										<div class="collection-icon">
+											<img src="{% static 'assets/images/kopek-odul.png' %}" alt="collection icon">
+										</div>
+										<div class="collection-area have-icons">
+											<div class="collection-name">
+												 Köpek Ödülleri ({{products_no_kopek_odul}})
+											</div>
+										</div>
+									</div>
+									<span class="icon icon-arrow-right" aria-hidden="true"></span>
+								</a>
+								<ul class="site-nav__dropdown vetical__dropdown vetical__dropdown1">
+									<li class="nav-links nav-links01 grid__item large--one-half">
+										<ul>
+											<li class="list-title">Köpek Ödüllerimiz</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-odul/1/2/all/all">Kemik Ödüller</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-odul/1/1/all/all">Stick Ödüller</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-odul/1/0/all/all">Bisküvi Ödüller</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-odul/2/1/all/all">Yavru Köpek Ödülleri</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-odul/2/0/all/all">Yetişkin Köpek Ödülleri</a>
+											</li>
+										</ul>
+									</li>
+									<li class="grid__item large--one-half">
+										<ul>
+											<li class="list-title">Son Eklenen</li>
+											<li class="list-product">
+											<div class="list-product-image">
+												<a href="/products/{{last_kopek_odul.slug}}"><img src="{{last_kopek_odul.image.url}}" alt="{{last_kopek_odul.name}}"></a>
+											</div>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="sdc-element">
+								<a href="/kedi-oyuncak/0/0/all/all">
+									<div class="element-main">
+										<div class="collection-icon">
+											<img src="{% static 'assets/images/kedi-oyuncak.png' %}" alt="collection icon">
+										</div>
+										<div class="collection-area have-icons">
+											<div class="collection-name">
+												 Kedi Oyuncakları ({{products_no_kedi_oyuncak}})
+											</div>
+										</div>
+									</div>
+								</a>
+							</li>
+							<li class="sdc-element">
+								<a href="/kopek-oyuncak/0/0/all/all">
+									<div class="element-main">
+										<div class="collection-icon">
+											<img src="{% static 'assets/images/kopek-oyuncak.png' %}" alt="collection icon">
+										</div>
+										<div class="collection-area have-icons">
+											<div class="collection-name">
+												 Kopek Oyuncakları ({{products_no_kopek_oyuncak}})
+											</div>
+										</div>
+									</div>
+								</a>
+							</li>
+							<li class="sdc-element vetical-menu1 site-nav--has-dropdown" aria-haspopup="true">
+								<a href="/kedi-kum/0/0/all/all" class="site-nav__link">
+									<div class="element-main">
+										<div class="collection-icon">
+											<img src="{% static 'assets/images/kedi-kum.png' %}" alt="collection icon">
+										</div>
+										<div class="collection-area have-icons">
+											<div class="collection-name">
+												 Kedi Kumları ({{products_no_kedi_kum}})
+											</div>
+										</div>
+									</div>
+									<span class="icon icon-arrow-right" aria-hidden="true"></span>
+								</a>
+								<ul class="site-nav__dropdown vetical__dropdown vetical__dropdown1">
+									<li class="nav-links nav-links01 grid__item large--one-half">
+										<ul>
+											<li class="list-title">Kedi Kumlarımız</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-kum/1/1/all/all">Silika Kumlar</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-kum/1/0/all/all">Bentonit Kumlar</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-kum/2/1/all/all">Topaklanan Kumlar</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kedi-kum/2/0/all/all">Emici Kumlar</a>
+											</li>
+										</ul>
+									</li>
+									<li class="grid__item large--one-half">
+										<ul>
+											<li class="list-title">Son Eklenen</li>
+											<li class="list-product">
+											<div class="list-product-image">
+												<a href="/products/{{last_kedi_kum.slug}}"><img src="{{last_kedi_kum.image.url}}" alt="{{last_kedi_kum.name}}"></a>
+											</div>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="sdc-element vetical-menu1 site-nav--has-dropdown" aria-haspopup="true">
+								<a href="/kopek-tasma/0/0/all/all" class="site-nav__link">
+									<div class="element-main">
+										<div class="collection-icon">
+											<img src="{% static 'assets/images/kopek-tasma.png' %}" alt="collection icon">
+										</div>
+										<div class="collection-area have-icons">
+											<div class="collection-name">
+												 Köpek Tasmaları ({{products_no_kopek_tasma}})
+											</div>
+										</div>
+									</div>
+									<span class="icon icon-arrow-right" aria-hidden="true"></span>
+								</a>
+								<ul class="site-nav__dropdown vetical__dropdown vetical__dropdown1">
+									<li class="nav-links nav-links01 grid__item large--one-half">
+										<ul>
+											<li class="list-title">Köpek Tasmalarımız</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-tasma/1/1/all/all">Göğüs Tasmaları</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-tasma/1/0/all/all">Boyun Tasmaları</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-tasma/2/1/all/all">Deri Tasmalar</a>
+											</li>
+											<li class="list-unstyled nav-sub-mega">
+											<a href="/kopek-tasma/2/0/all/all">Zincir Tasmalar</a>
+											</li>
+										</ul>
+									</li>
+									<li class="grid__item large--one-half">
+										<ul>
+											<li class="list-title">Son Eklenen</li>
+											<li class="list-product">
+											<div class="list-product-image">
+												<a href="/products/{{last_kopek_tasma.slug}}"><img src="{{last_kopek_tasma.image.url}}" alt="{{last_kopek_tasma.name}}"></a>
+											</div>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="sdc-element">
+								<a href="#">
+									<div class="element-main">
+										<div class="collection-icon">
+											<img src="{% static 'assets/images/kus-mama.png' %}" alt="collection icon">
+										</div>
+										<div class="collection-area have-icons">
+											<div class="collection-name">
+												 Kuş Yemleri (0)
+											</div>
+										</div>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="grid__item small--one-whole medium--one-whole three-quarters main-slideshow">
+				<div class="main_slideshow_wrapper">
+					<div id="slider" class="flexslider">
+						<ul class="slides">
+							{% for campaign in all_campaigns %}
+							<li>
+								<img src="{{campaign.image_885x450.url}}" alt="" />
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+					<div id="carousel" class="flexslider">
+						<ul class="slides">
+							{% for campaign in all_campaigns %}
+							<li>
+								<div>
+									<img src="{{campaign.image_square.url}}" alt="">
+									<span class="cr-title"><a href="/campaigns/{{campaign.slug}}" onclick="location.href = '/campaigns/{{campaign.slug}}'">{{campaign.title}}</a></span>
+									<span class="cr-desc">{{campaign.header}}</span>
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="cat-blocks" class="cat-wrapper grid--full grid--table grid-block-full">
+			<div class="cat-inner" style="background-color: #fdf3f3;">
+				<div class="bh-top home-block-title">
+					<div class="collection-name">
+						<img class="collection-icon" src="{% static 'assets/images/cat-icon.png' %}" alt="">
+						Kedi Ürünleri
+					</div>
+					<div class="collection-tags">
+						<ul class="bh-tags">
+							<li class=""><a href="/kedi-mama/0/0/all/all">Mamalar</a></li>
+							<li class=""><a href="/kedi-kum/0/0/all/all">Kumlar</a></li>
+							<li class=""><a href="/kedi-odul/0/0/all/all">Ödüller</a></li>
+							<li class=""><a href="/kedi-oyuncak/0/0/all/all">Oyuncaklar</a></li>
+							<li class=""><a href="/kedi-kap/0/0/all/all">Kaplar</a></li>
+							<li class="link-to"><a href="collection/1/all/all">Tümünü Gör</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="bh-btm">
+					<div class="grid__item three-quarters bh-left small--one-whole medium--one-whole">
+						<div class="home-slideshow-block bh-slideshow">
+							<div class="home-gallery-slider">
+								{% for campaign in cat_campaigns %}
+								<div><a href="/campaigns/{{campaign.slug}}"><img src="{{campaign.image_880x285.url}}" alt=""></a></div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class="home-products-block bh-products">
+							<div class="home-products-block-title">
+								<span>Çok Satanlar</span>
+							</div>
+							<div class="home-products-block-content">
+								<div class="home-products-slider">
+									{% for product in last_five_cat_products %}
+									<div class="grid__item">
+										<div class="grid__item_wrapper">
+											<div class="grid__image product-image">
+												<a href="/products/{{product.slug}}">
+													<img src="{{product.image.url}}" alt="{{product.name}}">
+												</a>
+											</div>
+											<div class="rating-star">
+												<span class="spr-badge" data-rating="0.0">
+													<span class="spr-starrating spr-badge-starrating">
+														<i class="spr-icon spr-icon-star" style=""></i>
+														<i class="spr-icon spr-icon-star" style=""></i>
+														<i class="spr-icon spr-icon-star" style=""></i>
+														<i class="spr-icon spr-icon-star" style=""></i>
+														<i class="spr-icon spr-icon-star" style=""></i>
+													</span>
+													<span class="spr-badge-caption">Yorum Yok</span>
+												</span>
+											</div>
+											<p class="h6 product-title">
+												<a href="/products/{{product.slug}}">{{product.name}}</a>
+											</p>
+											<p class="product-price">
+												<strong>İndirimli</strong>
+												<span class="money">{{product.price|currency}}</span>
+												<span class="visually-hidden">Normal Fiyat</span>
+												<s><span class="money">{{product.price_before|currency}}</span></s>
+											</p>
+											<ul class="action-button">
+												<li class="add-to-cart-form">
+													<form action="/addToCart/" method="post" enctype="multipart/form-data" class="AddToCartFormCollection">
+														{% csrf_token %}
+														<div class="effect-ajax-cart">
+															<input type="hidden" name="product" value="{{product.id}}">
+															<button type="submit" class="btn btn-1 add-to-cart" title="Sepete Ekle">
+																<span><i class="fa fa-shopping-cart"></i>Sepete Ekle</span>
+															</button>
+														</div>
+													</form>
+												</li>
+											</ul>
+										</div>
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="grid__item one-quarter bh-right small--one-whole medium--one-whole">
+						<div class="brands-area">
+							<ul class="brands-elements">
+								<li class="">
+									<a href="/collection/1/all/N&D"><img src="{% static 'assets/images/brand-nd.png' %}" alt=""></a>
+								</li>
+								<li class="">
+									<a href="/collection/1/all/Proline"><img src="{% static 'assets/images/brand-proline.png' %}" alt=""></a>
+								</li>
+								<li class="">
+									<a href="/collection/1/all/Whiskas"><img src="{% static 'assets/images/brand-whiskas.png' %}" alt=""></a>
+								</li>
+								<li class="">
+									<a href="/collection/1/all/Proplan"><img src="{% static 'assets/images/brand-proplan.png' %}" alt=""></a>
+								</li>
+								<li class="">
+									<a href="/collection/1/all/Proplan"><img src="{% static 'assets/images/brand-proplan.png' %}" alt=""></a>
+								</li>
+								<li class="">
+									<a href="/collection/1/all/Proplan"><img src="{% static 'assets/images/brand-proplan.png' %}" alt=""></a>
+								</li>
+							</ul>
+						</div>
+						<div class="banner-area">
+							<a href="#"><img src="{% static 'assets/images/reklam-alani.jpg' %}" alt=""></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="dog-blocks" class="dog-wrapper grid--full grid--table grid-block-full">
+			<div class="dog-inner" style="background-color: #fdf3f3;">
+				<div class="bh-top home-block-title">
+					<div class="collection-name">
+						<img class="collection-icon" src="{% static 'assets/images/dog-icon.png' %}" alt="">
+						Köpek Ürünleri
+					</div>
+					<div class="collection-tags">
+						<ul class="bh-tags">
+							<li class=""><a href="/kopek-mama/0/0/all/all">Mamalar</a></li>
+							<li class=""><a href="/kopek-odul/0/0/all/all">Ödüller</a></li>
+							<li class=""><a href="/kopek-oyuncak/0/0/all/all">Oyuncaklar</a></li>
+							<li class=""><a href="/kopek-tasma/0/0/all/all">Tasmalar</a></li>
+							<li class=""><a href="/kopek-kap/0/0/all/all">Kaplar</a></li>
+							<li class="link-to"><a href="/collection/2/all/all">Tümünü Gör</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="bh-btm">
+					<div class="grid__item three-quarters bh-left small--one-whole medium--one-whole">
+						<div class="home-slideshow-block bh-slideshow">
+							<div class="home-gallery-slider">
+								{% for campaign in dog_campaigns %}
+								<div><a href="/campaigns/{{campaign.slug}}"><img src="{{campaign.image_880x285.url}}" alt=""></a></div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class="home-products-block bh-products">
+							<div class="home-products-block-title">
+								<span>Çok Satanlar</span>
+							</div>
+							<div class="home-products-block-content">
+								<div class="home-products-slider">
+									{% for product in last_five_dog_products %}
+									<div class="grid__item">
+										<div class="grid__item_wrapper">
+											<div class="grid__image product-image">
+												<a href="/products/{{product.slug}}">
+													<img src="{{product.image.url}}" alt="{{product.name}}">
+												</a>
+											</div>
+											<div class="rating-star">
+												<span class="spr-badge" data-rating="0.0">
+													<span class="spr-starrating spr-badge-starrating">
+														<i class="spr-icon spr-icon-star" style=""></i>
+														<i class="spr-icon spr-icon-star" style=""></i>
+														<i class="spr-icon spr-icon-star" style=""></i>
+														<i class="spr-icon spr-icon-star" style=""></i>
+														<i class="spr-icon spr-icon-star" style=""></i>
+													</span>
+													<span class="spr-badge-caption">Yorum Yok</span>
+												</span>
+											</div>
+											<p class="h6 product-title">
+												<a href="/products/{{product.slug}}">{{product.name}}</a>
+											</p>
+											<p class="product-price">
+												<strong>İndirimli</strong>
+												<span class="money">{{product.price|currency}}</span>
+												<span class="visually-hidden">Normal Fiyat</span>
+												<s><span class="money">{{product.price_before|currency}}</span></s>
+											</p>
+											<ul class="action-button">
+												<li class="add-to-cart-form">
+													<form action="#" method="post" enctype="multipart/form-data" class="AddToCartFormCollection">
+														{% csrf_token %}
+														<div class="effect-ajax-cart">
+															<input type="hidden" name="product" value="{{product.id}}">
+															<button type="submit" class="btn btn-1 add-to-cart" title="Sepete Ekle">
+																<span><i class="fa fa-shopping-cart"></i>Sepete Ekle</span>
+															</button>
+														</div>
+													</form>
+												</li>
+											</ul>
+										</div>
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="grid__item one-quarter bh-right small--one-whole medium--one-whole">
+						<div class="brands-area">
+							<ul class="brands-elements">
+								<li class="">
+									<a href="/collection/2/all/Royal%20Canin"><img src="{% static 'assets/images/brand-royalcanin.png' %}" alt=""></a>
+								</li>
+								<li class="">
+									<a href="/collection/2/all/N&D"><img src="{% static 'assets/images/brand-nd.png' %}" alt=""></a>
+								</li>
+								<li class="">
+									<a href="/collection/2/all/Pedigree"><img src="{% static 'assets/images/brand-pedigree.png' %}" alt=""></a>
+								</li>
+								<li class="">
+									<a href="/collection/2/all/BonaCibo"><img src="{% static 'assets/images/brand-bonacibo.png' %}" alt=""></a>
+								</li>
+								<li class="">
+									<a href="/collection/2/all/BonaCibo"><img src="{% static 'assets/images/brand-bonacibo.png' %}" alt=""></a>
+								</li>
+								<li class="">
+									<a href="/collection/2/all/BonaCibo"><img src="{% static 'assets/images/brand-bonacibo.png' %}" alt=""></a>
+								</li>
+							</ul>
+						</div>
+						<div class="banner-area">
+							<a href="#"><img src="{% static 'assets/images/reklam-alani.jpg' %}" alt=""></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+{% endblock %}

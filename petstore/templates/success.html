@@ -1,0 +1,88 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{% load static %}
+
+<main class="main-content">
+    <div class="breadcrumb-wrapper">
+		<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+			<a href="/" title="Back to the frontpage">Anasayfa</a>
+			<span aria-hidden="true">&rsaquo;</span>
+			<span>Sipariş</span>
+		</nav>
+		<h1 class="section-header__title">SİPARİŞ BAŞARILI</h1>
+	</div>
+    <div class="large--one-third push--large--one-third text-center" style="margin-top: 50px;">
+        <img src="{% static 'assets/images/success.png' %}" height="150" style="margin-bottom: 50px; margin-top: 50px;">
+        <p style="font-size: 18px; margin-bottom: 30px;">Siparişiniz onaylandı. Bizi tercih ettiğiniz için teşekkür ederiz.</p>
+        <p style="border: 1px solid #fa5555; display: inline; padding: 10px; border-radius: 5px; font-size: 22px;">
+            Sipariş Numarası: {{order.order_no}}
+        </p>
+        <p style="font-size: 14px; margin-top: 30px;">Not: Sipariş numarasını not etmenizi tavsiye ederiz.</p>
+        <h5 style="margin-top: 50px;">Sipariş Özeti</h5>
+    </div>
+    <div class="wrapper">
+        <table class="cart-table full table--responsive">
+            <thead class="cart__row cart__header-labels">
+                <tr>
+                    <th class="text-center">
+                        Ürün
+                    </th>
+                    <th class="text-center">
+                        Adet
+                    </th>
+                    <th class="text-center">
+                        Ücret
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in ordered %}
+                <tr class="cart__row table__section">
+                    <td class="product-name" data-label="Product">
+                        <div class="img_item">
+                            <a href="/products/{{item.product.slug}}" class="cart__image">
+                            <img src="{{item.product.image.url}}" alt="{{item.product.name}}" height="100">
+                            </a>
+                        </div>
+                        <p class="product-title">
+                            <a href="/products/{{item.product.slug}}">
+                            {{item.product.name}}</a>
+                        </p>
+                    </td>
+                    <td data-label="Quantity">
+                        <div class="js-qty">
+                            <input readonly type="text" class="js-qty__num" value="{{item.quantity}}" min="1" data-id="" aria-label="quantity" pattern="[0-9]*">
+                        </div>
+                    </td>
+                    {% with multiplier=item.quantity %}
+                    <td data-label="Total" class="text-center">
+                        <span class="h3">
+                        <span class="money">{{item.product.price|multiply:multiplier|currency}}</span>
+                        </span>
+                    </td>
+                    {% endwith %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="grid__item text-right one-third small--one-whole" style="width: 100%;">
+            <p>
+                <span class="cart__subtotal-title">Sipariş Toplamı: </span>
+                <span class="h3 cart__subtotal"><span class="money">{{order.charge|currency}}</span></span>
+            </p>
+            <p>
+                <span class="cart__subtotal-title">Sipariş Durumu: </span>
+                <span class="h5 cart__subtotal"><span class="money">{{order.durum}}</span></span>
+            </p>
+            <p><a class="btn" href="/">Anasayfaya dön</a></p>
+            {% if request.session.customer %}
+            <p><a class="btn" href="/orders">Tüm siparişlerimi göster</a></p>
+            {% endif %}
+        </div>
+    </div>
+</main>
+
+{% endblock %}

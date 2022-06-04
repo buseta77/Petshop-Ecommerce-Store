@@ -1,0 +1,70 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{% load static %}
+
+<main class="main-content">
+	<div class="breadcrumb-wrapper">
+		<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+			<a href="./index.html" title="Back to the frontpage">Home</a>
+			<span aria-hidden="true">&rsaquo;</span>
+			<span>Contact Page</span>
+		</nav>
+		<h1 class="section-header__title">Contact us</h1>
+	</div>
+	<div class="wrapper">
+		<div class="grid">
+			<div class="grid__item">
+				<div class="grid__item one-half small--one-whole medium--one-whole">
+					<div class="title-heading">
+						Contact us
+					</div>
+					<div class="page-contact">
+						<div>
+							Sed vestibulum faucibus felis, sit amet facilisis tellus. Aliquam erat volutpat. Sed consectetur ipsum velit, quis rhoncus libero egestas eget
+						</div>
+						<ul>
+							<li class="address">
+							<i class="fa fa-street-view"></i> Address: 474 Ontario St Toronto, ON M4X 1M7 Canada</li>
+							<li class="open">
+							<i class="fa fa-check"></i> Opening hours
+							<ul>
+								<li>Mon-Fri : 11.00 - 20.00</li>
+								<li>Sat: 10.00 - 20.00</li>
+								<li>Sun: 19.00 - 20.00</li>
+							</ul>
+							</li>
+							<li class="email">
+							<i class="fa fa-envelope-o"></i> Email: support@tadathemes.com</li>
+							<li class="phone">
+							<i class="fa fa-phone"></i> Phone: (+123)345 678 xxx</li>
+						</ul>
+					</div>
+				</div>
+				<div class="form-vertical grid__item one-half small--one-whole medium--one-whole">
+					<div class="title-heading">
+						Drop a line
+					</div>
+					<div class="page-contact">
+						<form method="post" action="#" id="contact_form" class="contact-form" accept-charset="UTF-8">
+							<input type="hidden" value="contact" name="form_type"><input type="hidden" name="utf8" value="✓">
+							<label for="ContactFormName" class="hidden-label">Name</label>
+							<input type="text" id="ContactFormName" class="input-full" name="contact[name]" placeholder="Name" autocapitalize="words" value="">
+							<label for="ContactFormEmail" class="hidden-label">Email</label>
+							<input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" placeholder="Email" autocorrect="off" autocapitalize="off" value="">
+							<label for="ContactFormPhone" class="hidden-label">Phone Number</label>
+							<input type="tel" id="ContactFormPhone" class="input-full" name="contact[phone-number]" placeholder="Phone Number" pattern="[0-9\-]*" value="">
+							<label for="ContactFormMessage" class="hidden-label">Message</label>
+							<textarea rows="10" id="ContactFormMessage" class="input-full" name="contact[body]" placeholder="Message"></textarea>
+							<input type="submit" class="btn right" value="Send">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+{% endblock %}

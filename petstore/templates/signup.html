@@ -1,0 +1,45 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{% load static %}
+
+<main class="main-content">
+	<div class="breadcrumb-wrapper">
+		<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+			<a href="/" title="Back to the frontpage">Anasayfa</a>
+			<span aria-hidden="true">&rsaquo;</span>
+			<span>Yeni Hesap</span>
+		</nav>
+		<h1 class="section-header__title">YENİ HESAP OLUŞTUR</h1>
+	</div>
+	<div class="wrapper">
+		<div class="grid">
+			<div class="grid__item large--one-third push--large--one-third text-center">
+				<h1>Hesap Bilgileri</h1>
+				<div class="form-vertical">
+					<form method="post" action="#" id="create_customer" accept-charset="UTF-8">
+						{% csrf_token %}
+						<input type="hidden" value="create_customer" name="form_type"><input type="hidden" name="utf8" value="✓">
+						<label for="FirstName" class="hidden-label">İsim</label>
+						<input type="text" name="firstname" id="FirstName" class="input-full" placeholder="İsim" autocapitalize="words" autofocus="">
+						<label for="LastName" class="hidden-label">Soyisim</label>
+						<input type="text" name="lastname" id="LastName" class="input-full" placeholder="Soyisim" autocapitalize="words">
+						<label for="Phone" class="hidden-label">Telefon</label>
+						<input type="tel" name="phone" id="Phone" class="input-full" placeholder="Telefon" autocapitalize="off">
+						<label for="Email" class="hidden-label">Email</label>
+						<input type="email" name="email" id="Email" class="input-full" placeholder="Email" autocorrect="off" autocapitalize="off">
+						<label for="CreatePassword" class="hidden-label">Şifre</label>
+						<input type="password" name="password" id="CreatePassword" class="input-full" placeholder="Şifre">
+						<p>
+							<input type="submit" value="Üye Ol" class="btn btn--full">
+						</p>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+{% endblock %}

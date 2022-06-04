@@ -1,0 +1,74 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{% load static %}
+
+<main class="main-content">
+	<div class="breadcrumb-wrapper">
+		<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+			<a href="/" title="Back to the frontpage">Anasayfa</a>
+			<span aria-hidden="true">&rsaquo;</span>
+			<span>Giriş</span>
+		</nav>
+		<h1 class="section-header__title">GİRİŞ YAP</h1>
+	</div>
+	<div class="wrapper">
+		<div class="grid">
+			<div class="grid__item">
+				<div class="grid">
+					<div class="grid__item large--one-third push--large--one-third text-center">
+						<div class="note form-success" id="ResetSuccess" style="display:none;">
+							 Size şifrenizi yenilemeniz için bir email göndereceğiz
+						</div>
+						<div id="CustomerLoginForm" class="form-vertical">
+							<form method="post" action="#" id="customer_login" accept-charset="UTF-8">
+								{% csrf_token %}
+								<input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
+								<h3>Giriş</h3>
+								<label for="CustomerEmail" class="hidden-label">Email</label>
+								<input type="email" name="email" id="CustomerEmail" class="input-full" placeholder="Email" autocorrect="off" autocapitalize="off" autofocus="">
+								<label for="CustomerPassword" class="hidden-label">Password</label>
+								<input type="password" value="" name="password" id="CustomerPassword" class="input-full" placeholder="Şifre">
+								<p>
+									<input type="submit" class="btn btn2 btn--full" value="Giriş Yap">
+								</p>
+								<p>
+									<a href="" id="RecoverPassword">Şifremi Unuttum</a>
+								</p>
+							</form>
+							<script>
+							  $(document).ready(function(){
+								  $("a#RecoverPassword").click(function(event){
+									event.preventDefault();
+									timber.cache.$recoverPasswordForm.show();
+									timber.cache.$customerLoginForm.hide();
+								  });
+							  });
+							</script>
+						</div>
+						<div id="RecoverPasswordForm" style="display: none;">
+							<h3>Şifreni Sıfırla</h3>
+							<p>
+								Size şifrenizi yenilemeniz için bir email göndereceğiz
+							</p>
+							<div class="form-vertical">
+								<form method="post" action="#" accept-charset="UTF-8">
+									{% csrf_token %}
+									<input type="hidden" value="recover_customer_password" name="form_type"><input type="hidden" name="utf8" value="✓">
+									<label for="RecoverEmail" class="hidden-label">Email</label>
+									<input type="email" value="" name="email" id="RecoverEmail" class="input-full" placeholder="Email" autocorrect="off" autocapitalize="off">
+									<input type="submit" class="btn btn2" value="Gönder">
+									<button type="button" id="HideRecoverPasswordLink" class="text-link btn">Girişe Dön</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+{% endblock %}

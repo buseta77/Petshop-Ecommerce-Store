@@ -1,0 +1,69 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{% load static %}
+
+<main class="main-content">
+	<div class="breadcrumb-wrapper">
+		<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+			<a href="/" title="Back to the frontpage">Anasayfa</a>
+			<span aria-hidden="true">&rsaquo;</span>
+			<span>Sipariş</span>
+		</nav>
+		<h1 class="section-header__title">SİPARİŞİ ONAYLA</h1>
+	</div>
+	<div class="wrapper">
+		<div class="grid">
+			<div class="grid__item large--one-third push--large--one-third text-center">
+				<h1>Sipariş Bilgileri</h1>
+				{% if message != None %}
+					<h5 style="color: red;">{{message}}</h5>
+				{% endif %}
+				<div class="form-vertical">
+					<form action="/checkout/" method="post" enctype="multipart/form-data" id="CheckoutForm" class="form-vertical">
+						{% csrf_token %}
+						{% if not request.session.customer %}
+						<fieldset style="margin-bottom: 10px;">
+							<legend>Kişisel Bilgiler</legend>
+							<input type="hidden" value="create_order" name="form_type"><input type="hidden" name="utf8" value="✓">
+							<label for="FirstName" class="hidden-label">İsim</label>
+							<input type="text" name="firstname" id="FirstName" class="input-full" placeholder="İsim" autocapitalize="words" autofocus="">
+							<label for="LastName" class="hidden-label">Soyisim</label>
+							<input type="text" name="lastname" id="LastName" class="input-full" placeholder="Soyisim" autocapitalize="words">
+							<label for="Phone" class="hidden-label">Telefon</label>
+							<input type="tel" name="phone" id="Phone" class="input-full" placeholder="Telefon" autocapitalize="off">
+							<label for="Email" class="hidden-label">Email</label>
+							<input type="email" name="email" id="Email" class="input-full" placeholder="Email" autocorrect="off" autocapitalize="off">
+						</fieldset>
+						{% endif %}
+						<fieldset style="margin-bottom: 10px;">
+							<legend>Adres</legend>
+							<label for="City" class="hidden-label">Şehir</label>
+							<input type="text" name="city" id="City" class="input-full" placeholder="Şehir">
+							<label for="District" class="hidden-label">İlçe</label>
+							<input type="text" name="district" id="District" class="input-full" placeholder="İlçe">
+							<label for="Neighborhood" class="hidden-label">Mahalle</label>
+							<input type="text" name="neighborhood" id="Neighborhood" class="input-full" placeholder="Mahalle">
+							<label for="Adress" class="hidden-label">Adres</label>
+							<input type="text" name="address" id="Adress" class="input-full" placeholder="Adres">
+						</fieldset>
+						<div class="grid__item two-thirds small--one-whole" style="width: 100%;">
+							<label for="CartSpecialInstructions">Eklemek istediğiniz bir not var mı?</label>
+							<textarea name="note" class="input-full" id="CartSpecialInstructions"></textarea>
+						</div>
+						<p>
+							<input type="submit" value="ONAYLA VE ÖDEMEYE GİT" class="btn btn--full">
+						</p>
+						<p>
+							<a href="/cart" class="btn btn--full">SEPETE GERİ DÖN</a>
+						</p>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{% load static %}
+
+<main class="main-content">
+    <div class="breadcrumb-wrapper">
+		<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+			<a href="/" title="Back to the frontpage">Anasayfa</a>
+			<span aria-hidden="true">&rsaquo;</span>
+			<span>Kampanyalar</span>
+		</nav>
+        {% if campaign_list %}
+		<h1 class="section-header__title">GÜNCEL KAMPANYALAR</h1>
+        {% else %}
+        <h1 class="section-header__title">{{campaign.title}}</h1>
+        {% endif %}
+	</div>
+    {% if campaign_list %}
+    <div class="grid-campaign-container">
+        {% for campaign in campaign_list %}
+        <div class="grid-campaign-item">
+            <a href="/campaigns/{{campaign.slug}}"><img src="{{campaign.image_885x450.url}}" style="border-radius: 20px;"></a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div style="width: 70%; display:block; margin: auto; text-align: center;">
+        <img src="{{campaign.image_880x285.url}}">
+        <div style="margin: 50px 0;">{{campaign.description}}</div>
+    </div>
+    {% endif %}
+</main>
+
+{% endblock %}

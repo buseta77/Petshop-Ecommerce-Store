@@ -1,0 +1,187 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{% load static %}
+
+<main class="main-content">
+	<div class="breadcrumb-wrapper">
+		<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+			<a href="/" title="Back to the frontpage">Anasayfa</a>
+			<span aria-hidden="true">&rsaquo;</span>
+			<span>Sepetim</span>
+		</nav>
+		<h1 class="section-header__title">SEPETİM</h1>
+	</div>
+	<div class="wrapper">
+		<table class="cart-table full table--responsive">
+			<thead class="cart__row cart__header-labels">
+				<tr>
+					<th class="text-center">
+						Ürün
+					</th>
+					<th class="text-center">
+						Ücret
+					</th>
+					<th class="text-center">
+						Adet
+					</th>
+					<th class="text-center">
+						Toplam
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for product in cart_products %}
+				<tr class="cart__row table__section">
+					<td class="product-name" data-label="Product">
+						<div class="img_item">
+							<a href="/products/{{product.slug}}" class="cart__image">
+							<img src="{{product.image.url}}" alt="{{product.name}}" height="100">
+							</a>
+						</div>
+						<p class="product-title">
+							<a href="/products/{{product.slug}}">
+							{{product.name}}</a>
+						</p>
+						<form action="#" method="post" enctype="multipart/form-data" class="form-vertical">
+							{% csrf_token %}
+							<input type="hidden" name="delete" value="True">
+							<input type="hidden" name="product" value="{{product.id}}">
+							<button type="submit" style="font-family: 'Comfortaa'; font-size: 12px; color: red;">Sepetten Çıkar</button>
+						</form>
+					</td>
+					<td data-label="Price">
+						<span class="h3">
+						<span class="money">{{product.price|currency}}</span>
+						</span>
+					</td>
+					<td data-label="Quantity">
+						<div class="js-qty">
+							<form action="#" method="post" enctype="multipart/form-data" class="form-vertical" onsubmit="localStorage.setItem('my-scroll-pos', $(window).scrollTop());">
+								{% csrf_token %}
+								<input type="hidden" name='product' value='{{product.id}}'>
+								<input type="hidden" name="remove" value="True">
+								<button type="submit" class="ajaxcart__qty-adjust ajaxcart__qty--minus icon-fallback-text" data-qty="0" data-line="{{ forloop.counter }}">
+								<span class="icon icon-minus" aria-hidden="true"></span>
+								<span class="fallback-text">−</span>
+								</button>
+							</form>
+							<input readonly type="text" class="js-qty__num" value="{{product|cart_quantity:request.session.cart}}" min="1" data-id="" aria-label="quantity" pattern="[0-9]*" name="updates[]">
+							<form action="#" method="post" enctype="multipart/form-data" class="form-vertical" onsubmit="localStorage.setItem('my-scroll-pos', $(window).scrollTop());">
+								{% csrf_token %}
+								<input type="hidden" name='product' value='{{product.id}}'>
+								<button type="submit" class="ajaxcart__qty-adjust ajaxcart__qty--plus icon-fallback-text" data-line="{{ forloop.counter }}" data-qty="0">
+								<span class="icon icon-plus" aria-hidden="true"></span>
+								<span class="fallback-text">+</span>
+								</button>
+							</form>
+						</div>
+					</td>
+					{% with multiplier=product|cart_quantity:request.session.cart %}
+					<td data-label="Total" class="text-center">
+						<span class="h3">
+						<span class="money">{{product.price|multiply:multiplier|currency}}</span>
+						</span>
+					</td>
+					{% endwith %}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% if cart_products|total_cart_price:request.session.cart != 0 %}
+		<div class="grid cart__row">
+			<div class="grid__item text-right one-third small--one-whole" style="width: 100%;">
+				<p>
+					<span class="cart__subtotal-title">Kargo Ücreti</span>
+					<span class="h3 cart__subtotal"><span class="money">0 TL</span></span>
+				</p>
+				<p>
+					<span class="cart__subtotal-title">Toplam Ücret</span>
+					<span class="h3 cart__subtotal"><span class="money">{{cart_products|total_cart_price:request.session.cart|currency}}</span></span>
+				</p>
+				<p style="height: 5px;"></p>
+				{% if request.session.customer %}
+				<a href="/checkout" id="account_link2">
+					<span class="btn btn2">Alışverişi Tamamla</span>
+				</a>
+				{% else %}
+				<a href="#loginBox2" id="login_link2">
+					<span class="name btn">Alışverişi Tamamla</span>
+				</a>
+				<div id="loginBox2" class="loginLightbox" style="display:none;">
+					<div id="lightboxlogin2">
+						<form method="post" action="/login/" id="customer_login2" accept-charset="UTF-8">
+							{% csrf_token %}
+							<input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
+							<div id="bodyBox2">
+								<h3>Giriş Yap</h3>
+								<input type="hidden" name="checkout" value="True">
+								<label for="CustomerEmail2" class="hidden-label">Email</label>
+								<input type="email" name="email" id="CustomerEmail2" class="input-full" placeholder="Email">
+								<label for="CustomerPassword2" class="hidden-label">Şifre</label>
+								<input type="password" value="" name="password" id="CustomerPassword2" class="input-full" placeholder="Şifre">
+								<input type="submit" class="btn btn2 btn--full" value="Giriş Yap ve Devam Et">
+								<a class="btn btn2 btn--full" href="#create_accountBox" onclick="showCreateAccountForm2();return false;" id="CreateAccountPassword2">Yeni Hesap Oluştur</a>
+								<p style="text-align: center;">YA DA</p>
+								<a href="/checkout" class="btn btn2 btn--full">Üye Olmadan Devam Et</a>
+							</div>
+						</form>
+					</div>
+					<div id="create_accountBox2" style="display:none;">
+						<h3>Yeni Hesap Oluştur</h3>
+						<div class="form-vertical">
+							<form method="post" action="/signup/" id="create_customer2" accept-charset="UTF-8">
+								{% csrf_token %}
+								<input type="hidden" value="create_customer" name="form_type"><input type="hidden" name="utf8" value="✓">
+								<label for="FirstName2" class="hidden-label">İsim</label>
+								<input type="text" name="firstname" id="FirstName2" class="input-full" placeholder="İsim">
+								<label for="LastName2" class="hidden-label">Soyisim</label>
+								<input type="text" name="lastname" id="LastName2" class="input-full" placeholder="Soyisim">
+								<label for="Phone2" class="hidden-label">Telefon</label>
+								<input type="text" name="phone" id="Phone2" class="input-full" placeholder="Telefon">
+								<label for="Email2" class="hidden-label">Email</label>
+								<input type="email" name="email" id="Email2" class="input-full" placeholder="Email">
+								<label for="CreatePassword2" class="hidden-label">Şifre</label>
+								<input type="password" name="password" id="CreatePassword2" class="input-full" placeholder="Şifre">
+								<p>
+									<input type="submit" value="Üye Ol" class="btn btn2 btn--full">
+								</p>
+								<p>
+									<span><a class="btn" href="#" onclick="hideRecoverPasswordForm2();return false;">Girişe Dön</a></span>
+								</p>
+								<p class="close">
+									<a href="#" onclick="$.fancybox.close();">Kapat</a>
+								</p>
+							</form>
+						</div>
+					</div>
+					<script>
+						function showRecoverPasswordForm2() {
+						  $('#recover-password2').css("display",'block');
+						  $('#lightboxlogin2').css("display",'none');
+						  $('#create_accountBox2').css("display",'none');
+						}
+						function hideRecoverPasswordForm2() {
+						  $('#recover-password2').css("display",'none');
+						  $('#lightboxlogin2').css("display",'block');
+						  $('#create_accountBox2').css("display",'none');
+						}
+						function showCreateAccountForm2(){
+						  $('#recover-password2').css("display",'none');
+						  $('#lightboxlogin2').css("display",'none');
+						  $('#create_accountBox2').css("display",'block');
+						}
+					 </script>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+		{% else %}
+		<div class="grid cart__row" style="height: 150px;"></div>
+		{% endif %}
+	</div>
+</main>
+
+{% endblock %}

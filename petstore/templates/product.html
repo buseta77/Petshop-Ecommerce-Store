@@ -1,0 +1,195 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{% load static %}
+
+<main class="main-content">
+	<div class="breadcrumb-wrapper">
+		<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+			<a href="/" title="Back to the frontpage">Anasayfa</a>
+			<span aria-hidden="true">&rsaquo;</span>
+			<span>Ürün Sayfası</span>
+		</nav>
+		<h1 class="section-header__title">Ürün Detayı</h1>
+	</div>
+	<div class="wrapper">
+		<div class="grid--rev">
+			<div class="grid__item">
+				<div itemscope="" itemtype="http://schema.org/Product">
+					<div class="product-single">
+						<div class="grid__item large--one-half text-center" style="border: none;">
+							<div class="product-single__photos" id="ProductPhoto">
+								<img src="{{product.image.url}}" width="500" alt="{{product.name}}" id="ProductPhotoImg">
+							</div>
+						</div>
+						<div class="grid__item large--one-half" style="border: none;">
+							<div class="product-info-left grid__item five-eighths">
+								<h1 itemprop="name">{{product.name}}</h1>
+								<div class="rating-star">
+									<span class="spr-badge" id="spr_badge_3008529923" data-rating="0.0">
+									<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i><i class="spr-icon spr-icon-star" style=""></i></span>
+									<span class="spr-badge-caption">
+									Yorum Yok</span>
+									</span>
+								</div>
+								<div class="product-description" itemprop="description">
+									 description-short
+								</div>
+								<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+									<meta itemprop="priceCurrency" content="TL">
+									<link itemprop="availability" href="http://schema.org/InStock">
+									<div class="product-action ">
+										<form action="#" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical" onsubmit="localStorage.setItem('my-scroll-pos', $(window).scrollTop());">
+											{% csrf_token %}
+											<span class="visually-hidden">Fiyat</span>
+											<span id="ProductPrice" class="" itemprop="price"><span class="money" data-currency="TL">{{product.price|currency}}</span></span>
+											<div class="qty_select">
+												<label for="Quantity" class="quantity-selector">Adet</label>
+												<div class="js-qty">
+													<button type="button" onclick="decrease_number()" class="js-qty__adjust js-qty__adjust--minus icon-fallback-text" data-id="" data-qty="0">
+													<span class="icon icon-minus" aria-hidden="true"></span>
+													<span class="fallback-text">−</span>
+													</button>
+													<input type="hidden" name="product" value="{{product.id}}">
+													<input type="text" class="js-qty__num" value="1" min="1" data-id="" aria-label="quantity" pattern="[0-9]*" name="quantity" id="Quantity">
+													<button type="button" onclick="increase_number()" class="js-qty__adjust js-qty__adjust--plus icon-fallback-text" data-id="" data-qty="11">
+													<span class="icon icon-plus" aria-hidden="true"></span>
+													<span class="fallback-text">+</span>
+													</button>
+												</div>
+											</div>
+											<button type="submit" name="add" id="AddToCart" class="btn">
+											<span id="AddToCartText">Sepete Ekle</span>
+											</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="next-prev-button">
+							</div>
+						</div>
+					</div>
+					<div class="product-information">
+						<div id="tabs-information">
+							<ul class="nav nav-tabs tabs-left sideways">
+								<li class="description"><a href="#desc" data-toggle="tab" class="active">Ürün Açıklaması</a></li>
+								<li class="warranty"><a href="#size" data-toggle="tab">Warranty</a></li>
+								<li class="delivery"><a href="#delivery" data-toggle="tab">Delivery</a></li>
+								<li class="payment"><a href="#payment" data-toggle="tab">Payment</a></li>
+								<li class="reviews"><a href="#customerreview" data-toggle="tab">Customer Review</a></li>
+							</ul>
+							<div class="tab-panel active" id="desc">
+								<p>
+									{{product.description |safe}}
+								</p>
+							</div>
+							<div class="tab-panel fade " id="size">
+								<h2>Warranty Information</h2>
+								<p>
+									LIMITED WARRANTIES<br>
+									Limited Warranties are non-transferable. The following Limited Warranties are given to the original retail purchaser of the following Ashley Furniture Industries, Inc.Products:
+								</p>
+								<p>
+									Frames Used In Upholstered and Leather Products<br>
+									Limited Lifetime Warranty<br>
+									 A Limited Lifetime Warranty applies to all frames used in sofas, couches, love seats, upholstered chairs, ottomans, sectionals, and sleepers. Ashley Furniture Industries,Inc. warrants these components to you, the original retail purchaser, to be free from material manufacturing defects.
+								</p>
+							</div>
+							<div class="tab-panel fade " id="delivery">
+								<h2>Purchasing &amp; Delivery</h2>
+								 Before you make your purchase, it’s helpful to know the measurements of the area you plan to place the furniture. You should also measure any doorways and hallways through which the furniture will pass to get to its final destination.<br>
+								<h5>Picking up at the store</h5>
+								 Shopify Shop requires that all products are properly inspected BEFORE you take it home to insure there are no surprises. Our team is happy to open all packages and will assist in the inspection process. We will then reseal packages for safe transport. We encourage all customers to bring furniture pads or blankets to protect the items during transport as well as rope or tie downs. Shopify Shop will not be responsible for damage that occurs after leaving the store or during transit. It is the purchaser’s responsibility to make sure the correct items are picked up and in good condition.<br>
+								<h5>Delivery</h5>
+								 Customers are able to pick the next available delivery day that best fits their schedule. However, to route stops as efficiently as possible, Shopify Shop will provide the time frame. Customers will not be able to choose a time. You will be notified in advance of your scheduled time frame. Please make sure that a responsible adult (18 years or older) will be home at that time. <br>
+								 In preparation for your delivery, please remove existing furniture, pictures, mirrors, accessories, etc. to prevent damages. Also insure that the area where you would like your furniture placed is clear of any old furniture and any other items that may obstruct the passageway of the delivery team. Shopify Shop will deliver, assemble, and set-up your new furniture purchase and remove all packing materials from your home. Our delivery crews are not permitted to move your existing furniture or other household items. Delivery personnel will attempt to deliver the purchased items in a safe and controlled manner but will not attempt to place furniture if they feel it will result in damage to the product or your home. Delivery personnel are unable to remove doors, hoist furniture or carry furniture up more than 3 flights of stairs. An elevator must be available for deliveries to the 4th floor and above.
+							</div>
+							<div class="tab-panel fade " id="payment">
+								<h2>Payment Information</h2>
+								<p>
+									Dust or wipe clean with a cloth dampened with water once a week. Be sure not to leave water spots on the surface. These water spots will dry and could possibly leave permanent marks.
+								</p>
+								<p>
+									Clean stains/spots using the following steps: Dampen a soft cloth with a mixture of hot water and liquid dishwashing detergent. Wring the cloth as much as possible to remove excess liquid. Rub the surface lightly in a circular motion. Dry the surface immediately with a clean, soft towel.
+								</p>
+							</div>
+						</div>
+						<script>
+							$('#tabs-information').easytabs({animationSpeed: 'fast', updateHash: false});
+					  	</script>
+						<div id="product-additional-information">
+							<div class="related-products">
+								<h1 class="feature-title"><span>BUNLAR DA İLGİNİZİ ÇEKEBİLİR</span></h1>
+								<ul class="related-products-items grid-uniform" style="left: 15px;">
+									{% for item in might_like %}
+									<li class="related-element">
+										<div class="grid__item" id="related_product_hover">
+											<div class="grid__item_wrapper">
+												<div class="grid__image product-image">
+													<a href="/products/{{item.slug}}">
+														<img src="{{item.image.url}}" alt="{{item.name}}">
+													</a>
+												</div>
+												<div class="rating-star">
+													<span class="spr-badge" data-rating="0.0">
+														<span class="spr-starrating spr-badge-starrating">
+															<i class="spr-icon spr-icon-star" style=""></i>
+															<i class="spr-icon spr-icon-star" style=""></i>
+															<i class="spr-icon spr-icon-star" style=""></i>
+															<i class="spr-icon spr-icon-star" style=""></i>
+															<i class="spr-icon spr-icon-star" style=""></i>
+														</span>
+														<span class="spr-badge-caption">Yorum Yok</span>
+													</span>
+												</div>
+												<p class="h6 product-title" style="height: 80px;">
+													<a href="/products/{{item.slug}}">{{item.name}}</a>
+												</p>
+												<p class="product-price">
+													<strong>İndirimli</strong>
+													<span class="money">{{item.price|currency}}</span>
+													<span class="visually-hidden">Normal Fiyat</span>
+													<s><span class="money">{{item.price_before|currency}}</span></s>
+												</p>
+												<ul class="action-button">
+													<li class="add-to-cart-form">
+													<form action="#" method="post" enctype="multipart/form-data" class="form-vertical" onsubmit="localStorage.setItem('my-scroll-pos', $(window).scrollTop()); localStorage.setItem('added', $(window).scrollTop());">
+														{% csrf_token %}
+														<div class="effect-ajax-cart">
+															<input type="hidden" name="product" value="{{item.id}}">
+															<button type="submit" class="btn btn-1 add-to-cart" title="Sepete Ekle">
+																<span><i class="fa fa-shopping-cart"></i>Sepete Ekle</span>
+															</button>
+														</div>
+													</form>
+												</li>
+												</ul>
+											</div>
+										</div>
+									</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+<script>
+function increase_number() {
+    document.getElementById('Quantity').value++;
+}
+
+function decrease_number() {
+	if (document.getElementById('Quantity').value > 1) {
+		document.getElementById('Quantity').value--;
+	};
+}
+</script>
+
+{% endblock %}
